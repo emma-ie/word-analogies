@@ -18,5 +18,9 @@ public class SearchResults {
 	public double getScore() {
 		return score;
 	}
-		
+	
+	@Override
+	public String toString() {
+		return word + " (" + score + ")";
+	}
 }
