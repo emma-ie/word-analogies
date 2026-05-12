@@ -4,8 +4,8 @@ public class VectorArithmetic {
 	public static double[] add(double[] a, double[] b) {
 		// Create a new array of doubles to store result of arithmetic in
 		double[] result = new double[a.length];
-		
-		// Add the same index of both arrays and store it in the result array 
+
+		// Add the same index of both arrays and store it in the result array
 		for (int i = 0; i < a.length; i++) {
 			result[i] = a[i] + b[i];
 		}
@@ -18,6 +18,26 @@ public class VectorArithmetic {
 
 		for (int i = 0; i < a.length; i++) {
 			result[i] = a[i] - b[i];
+		}
+
+		return result;
+	}
+
+	public static double[] multiply(double[] a, double[] b) {
+		double[] result = new double[a.length];
+
+		for (int i = 0; i < a.length; i++) {
+			result[i] = a[i] * b[i];
+		}
+
+		return result;
+	}
+
+	public static double[] divide(double[] a, double[] b) {
+		double[] result = new double[a.length];
+
+		for (int i = 0; i < a.length; i++) {
+			result[i] = a[i] / b[i];
 		}
 
 		return result;
