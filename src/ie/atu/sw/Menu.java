@@ -7,15 +7,15 @@ public class Menu {
 	private Scanner scanner = new Scanner(System.in);
 	private SimilaritySearch search;
 	private Map<String, double[]> embeddings;
-	
+
 	public Menu(Map<String, double[]> embeddings) {
 		this.embeddings = embeddings;
 		this.search = new SimilaritySearch(embeddings);
 	}
-	
+
 	public void showMenu() {
-		
-		while(true) {
+
+		while (true) {
 			System.out.println(ConsoleColour.WHITE);
 			System.out.println("************************************************************");
 			System.out.println("*     ATU - Dept. of Computer Science & Applied Physics    *");
@@ -29,43 +29,57 @@ public class Menu {
 			System.out.println("(4) Specify Output File (default: ./out.txt)");
 			System.out.println("(5) Optional Extras...");
 			System.out.println("(6) Quit");
-			
-			String userChoice = scanner.nextLine();
-			
+
+			int userChoice;
+
+			try {
+				userChoice = Integer.parseInt(scanner.next());
+			} catch (Exception e) {
+				System.out.println("Invalid input - must be a number.");
+				continue;
+			}
+
 			switch (userChoice) {
-			case "1":
+
+			case 1 -> {
 				System.out.print("Enter embeddings path: ");
-				String path = scanner.nextLine();
+				String path = scanner.next();
 				System.out.println("Path set to: " + path);
 				break;
-			
-			case "2":
+			}
+
+			case 2 -> {
 				System.out.println("2 Not implemented yet");
 				break;
-				
-			case "3":
+			}
+
+			case 3 -> {
 				System.out.println("3 Not implemented yet");
 				break;
-				
-			case "4":
+			}
+
+			case 4 -> {
 				System.out.println("Enter output file path: ");
-				String outPath = scanner.nextLine();
+				String outPath = scanner.next();
 				System.out.println("Output file path set to: " + outPath);
 				break;
-				
-			case "5":
+			}
+
+			case 5 -> {
 				System.out.println("5 Not implemented yet");
 				break;
-				
-			case "6":
+			}
+
+			case 6 -> {
 				System.out.println("Exiting...");
 				return;
-				
-			default:
+			}
+			default -> {
 				System.out.println("Invalid option.");
 			}
-			
-			//Output a menu of options and solicit text from the user
+			}
+
+			// Output a menu of options and solicit text from the user
 			System.out.print(ConsoleColour.BLACK_BOLD_BRIGHT);
 			System.out.print("Select Option [1-4]>");
 			System.out.println();
