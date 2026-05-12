@@ -1,5 +1,6 @@
 package ie.atu.sw;
 
+import java.io.PrintStream;
 import java.util.*;
 
 public class Menu {
@@ -7,8 +8,9 @@ public class Menu {
 	private Scanner scanner = new Scanner(System.in);
 	private SimilaritySearch search;
 	private Map<String, double[]> embeddings;
-	private String outputFile = "out.txt";
-
+	private ExpressionEvaluator evaluator = new ExpressionEvaluator();
+	private OutputWriter outputWriter = new OutputWriter("out.txt");
+	
 	public Menu(Map<String, double[]> embeddings) {
 		this.embeddings = embeddings;
 		this.search = new SimilaritySearch(embeddings);
@@ -39,7 +41,7 @@ public class Menu {
 			int userChoice;
 
 			try {
-				userChoice = Integer.parseInt(scanner.next());
+				userChoice = Integer.parseInt(scanner.nextLine());
 			} catch (Exception e) {
 				System.out.println("Invalid input - must be a number.");
 				continue;
@@ -49,14 +51,24 @@ public class Menu {
 
 			case 1 -> {
 				System.out.print("Enter embeddings path: ");
-				String path = scanner.next();
+				String path = scanner.nextLine();
 				System.out.println("Path set to: " + path);
 				break;
 			}
 
 			case 2 -> {
-				System.out.println("2 Not implemented yet");
-				break;
+				double[] resultVector = evaluator.buildVector(scanner, embeddings);
+				
+				if (resultVector == null) break;
+				
+				List<SearchResults> results = search.findSimilarWords(resultVector, 10);
+				
+				for (SearchResults r : results) {
+					System.out.println(r);
+				}
+				
+				outputWriter.write(results);
+				
 			}
 
 			case 3 -> {
@@ -66,9 +78,9 @@ public class Menu {
 
 			case 4 -> {
 				System.out.println("Enter output file path: ");
-				String outputFile = scanner.next();
-				System.out.println("Output file path set to: " + outputFile);
-				break;
+				String path = scanner.nextLine();
+				outputWriter.setOutputFile(path);
+				System.out.println("Output file set to: " + path);
 			}
 
 			case 5 -> {

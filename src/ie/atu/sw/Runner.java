@@ -8,9 +8,11 @@ public class Runner {
 
 		// Load embeddings file
 		Map<String, double[]> embeddings = loader.load("embeddings.txt");
+		System.out.println("Embeddings loaded: " + embeddings.size());
 
 		// Start menu
 		Menu menu = new Menu(embeddings);
 		menu.showMenu();
+		
 	}
 }
