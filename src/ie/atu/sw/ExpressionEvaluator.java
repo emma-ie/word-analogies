@@ -6,40 +6,44 @@ public class ExpressionEvaluator {
 
 	public double[] buildVector(Scanner scanner, Map<String, double[]> embeddings) {
 
-		double[] result = null;
+		System.out.println("Enter first word: ");
+		String wordFirst = scanner.nextLine();
+		
+		double[] resultVector = embeddings.get(wordFirst);
+		
+		if (resultVector == null) {
+			System.out.println("Word not found.");
+			return null;
+		}
 
 		while (true) {
 
-			System.out.println("Enter word (or blank to finish): ");
-			String word = scanner.nextLine();
+			System.out.println("Enter operator (+ - * /) or press Enter to finish: ");
+			String operator = scanner.nextLine();
 
-			if (word.isEmpty())
+			if (operator.isEmpty())
 				break;
 
-			double[] vector = embeddings.get(word);
+			System.out.println("Enter next word: ");
+			String wordSecond = scanner.nextLine();
+			
+			double[] nextVector = embeddings.get(wordSecond);
 
-			if (vector == null) {
-				System.out.println("Word not found: " + word);
+			if (nextVector == null) {
+				System.out.println("Word not found.");
 				continue;
 			}
 
-			if (result == null) {
-				result = vector;
-				continue;
-			}
-
-			System.out.println("Enter operator (+ - * /): ");
-			String oper = scanner.nextLine();
-
-			switch (oper) {
-			case "+" -> result = VectorArithmetic.add(result, vector);
-			case "-" -> result = VectorArithmetic.subtract(result, vector);
-			case "*" -> result = VectorArithmetic.multiply(result, vector);
-			case "/" -> result = VectorArithmetic.divide(result, vector);
+			switch (operator) {
+			case "+" -> resultVector = VectorArithmetic.add(resultVector, nextVector);
+			case "-" -> resultVector = VectorArithmetic.subtract(resultVector, nextVector);
+			case "*" -> resultVector = VectorArithmetic.multiply(resultVector, nextVector);
+			case "/" -> resultVector = VectorArithmetic.divide(resultVector, nextVector);
+			default -> System.out.println("Invalid operator.");
 			}
 		}
 
-		return result;
+		return resultVector;
 	}
 
 }
