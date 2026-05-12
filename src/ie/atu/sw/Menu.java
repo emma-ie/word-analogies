@@ -1,23 +1,33 @@
 package ie.atu.sw;
 
-import java.io.PrintStream;
 import java.util.*;
 
 public class Menu {
 
+	// Scanner for user input
 	private Scanner scanner = new Scanner(System.in);
-	private SimilaritySearch search;
-	private Map<String, double[]> embeddings;
-	private ExpressionEvaluator evaluator = new ExpressionEvaluator();
-	private OutputWriter outputWriter = new OutputWriter("out.txt");
 	
+	private SimilaritySearch search;
+	
+	// Stores word embeddings loaded from file
+	private Map<String, double[]> embeddings;
+	
+	// Builds the result vector from user input
+	private ExpressionEvaluator evaluator = new ExpressionEvaluator();
+	
+	// Writes results to a file
+	private OutputWriter outputWriter = new OutputWriter("out.txt");
+
+	// Constructor sets up embeddings and search class
 	public Menu(Map<String, double[]> embeddings) {
 		this.embeddings = embeddings;
 		this.search = new SimilaritySearch(embeddings);
 	}
 
+	// Displays and runs the main menu loop
 	public void showMenu() {
-		// Print program header
+		
+		// Print program header once
 		System.out.println(ConsoleColour.WHITE);
 		System.out.println("************************************************************");
 		System.out.println("*     ATU - Dept. of Computer Science & Applied Physics    *");
@@ -40,6 +50,7 @@ public class Menu {
 
 			int userChoice;
 
+			// Read and validate user input
 			try {
 				userChoice = Integer.parseInt(scanner.nextLine());
 			} catch (Exception e) {
@@ -50,6 +61,7 @@ public class Menu {
 			switch (userChoice) {
 
 			case 1 -> {
+				// Set embeddings file path
 				System.out.print("Enter embeddings path: ");
 				String path = scanner.nextLine();
 				System.out.println("Path set to: " + path);
@@ -57,18 +69,24 @@ public class Menu {
 			}
 
 			case 2 -> {
-				double[] resultVector = evaluator.buildVector(scanner, embeddings);
-				
-				if (resultVector == null) break;
-				
-				List<SearchResults> results = search.findSimilarWords(resultVector, 10);
-				
+				// Run vector operation and similarity search
+				List<String> usedWords = new ArrayList<>();
+
+				double[] resultVector = evaluator.buildVector(scanner, embeddings, usedWords);
+
+				if (resultVector == null)
+					break;
+
+				List<SearchResults> results = search.findSimilarWords(resultVector, 10, usedWords);
+
+				// Print results to console
 				for (SearchResults r : results) {
 					System.out.println(r);
 				}
-				
+
+				// Write results to file
 				outputWriter.write(results);
-				
+
 			}
 
 			case 3 -> {
@@ -77,6 +95,7 @@ public class Menu {
 			}
 
 			case 4 -> {
+				// Change output file
 				System.out.println("Enter output file path: ");
 				String path = scanner.nextLine();
 				outputWriter.setOutputFile(path);
@@ -96,7 +115,6 @@ public class Menu {
 				System.out.println("Invalid option.");
 			}
 			}
-
 
 		}
 	}

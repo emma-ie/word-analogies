@@ -12,6 +12,6 @@ public class Runner {
 		// Start menu
 		Menu menu = new Menu(embeddings);
 		menu.showMenu();
-		
+
 	}
 }

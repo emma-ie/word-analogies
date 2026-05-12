@@ -11,20 +11,25 @@ public class SimilaritySearch {
 		this.embeddings = embeddings;
 	}
 
-	public List<SearchResults> findSimilarWords(double[] target, int topN) {
+	public List<SearchResults> findSimilarWords(double[] target, int topN, List<String> usedWords) {
 
 		// Create list used to store words and their similarity scores
 		List<SearchResults> results = new ArrayList<>();
 
 		// Loop through every word stored in the embeddings map
 		for (String word : embeddings.keySet()) {
-			
+
+			// Exclude the user-inputted words
+			if (usedWords.contains(word)) {
+				continue;
+			}
+
 			// Get the vector for the current word
 			double[] vector = embeddings.get(word);
 
 			// Calculate the cosine similarity between target vector and current word vector
 			double similarity = VectorArithmetic.calculateCosineSimilarity(target, vector);
-			
+
 			// Store the word and similarity score in the results list
 			results.add(new SearchResults(word, similarity));
 		}
