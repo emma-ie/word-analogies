@@ -13,8 +13,11 @@ public class SimilaritySearch {
 
 	public List<SearchResults> findSimilarWords(double[] target, int topN, List<String> usedWords) {
 
-		// Create list used to store words and their similarity scores
-		List<SearchResults> results = new ArrayList<>();
+		// Thread safe list to store results
+		List<SearchResults> results = Collections.synchronizedList(new ArrayList<>());
+
+		// Store threads so we can wait for them
+		List<Thread> threads = new ArrayList<>();
 
 		// Loop through every word stored in the embeddings map
 		for (String word : embeddings.keySet()) {
@@ -27,16 +30,31 @@ public class SimilaritySearch {
 			// Get the vector for the current word
 			double[] vector = embeddings.get(word);
 
-			// Calculate the cosine similarity between target vector and current word vector
-			double similarity = VectorArithmetic.calculateCosineSimilarity(target, vector);
+			// Run similarity calculation in a virtual thread
+			Thread workerThread = Thread.startVirtualThread(() -> {
 
-			// Store the word and similarity score in the results list
-			results.add(new SearchResults(word, similarity));
+				// Calculate the cosine similarity between target vector and current word vector
+				double similarityScore = VectorArithmetic.calculateCosineSimilarity(target, vector);
+
+				// Store the result
+				results.add(new SearchResults(word, similarityScore));
+			});
+
+			threads.add(workerThread);
+
+			// Wait for all threads to finish
+			for (Thread t : threads) {
+				try {
+					t.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+			// Sort the results based on similarity score
+			results.sort((a, b) -> Double.compare(b.getScore(), a.getScore()));
+
 		}
-
-		// Sort the results based on similarity score
-		results.sort((a, b) -> Double.compare(b.getScore(), a.getScore()));
-
 		// Return the top N most similar words
 		return results.subList(0, topN);
 	}
