@@ -7,6 +7,7 @@ public class Menu {
 	private Scanner scanner = new Scanner(System.in);
 	private SimilaritySearch search;
 	private Map<String, double[]> embeddings;
+	private String outputFile = "out.txt";
 
 	public Menu(Map<String, double[]> embeddings) {
 		this.embeddings = embeddings;
@@ -14,15 +15,20 @@ public class Menu {
 	}
 
 	public void showMenu() {
+		// Print program header
+		System.out.println(ConsoleColour.WHITE);
+		System.out.println("************************************************************");
+		System.out.println("*     ATU - Dept. of Computer Science & Applied Physics    *");
+		System.out.println("*                                                          *");
+		System.out.println("*  Word Analogies with Vector Arithmetic & Virtual Threads *");
+		System.out.println("*                                                          *");
+		System.out.println("************************************************************");
 
-		while (true) {
-			System.out.println(ConsoleColour.WHITE);
-			System.out.println("************************************************************");
-			System.out.println("*     ATU - Dept. of Computer Science & Applied Physics    *");
-			System.out.println("*                                                          *");
-			System.out.println("*  Word Analogies with Vector Arithmetic & Virtual Threads *");
-			System.out.println("*                                                          *");
-			System.out.println("************************************************************");
+		// Boolean flag controls main menu loop
+		// When false, program exits
+		boolean keepRunning = true;
+
+		while (keepRunning) {
 			System.out.println("(1) Enter Path to Embeddings File>");
 			System.out.println("(2) Enter Vector Operation>");
 			System.out.println("(3) Configure Options");
@@ -60,8 +66,8 @@ public class Menu {
 
 			case 4 -> {
 				System.out.println("Enter output file path: ");
-				String outPath = scanner.next();
-				System.out.println("Output file path set to: " + outPath);
+				String outputFile = scanner.next();
+				System.out.println("Output file path set to: " + outputFile);
 				break;
 			}
 
@@ -72,17 +78,14 @@ public class Menu {
 
 			case 6 -> {
 				System.out.println("Exiting...");
-				return;
+				keepRunning = false;
 			}
 			default -> {
 				System.out.println("Invalid option.");
 			}
 			}
 
-			// Output a menu of options and solicit text from the user
-			System.out.print(ConsoleColour.BLACK_BOLD_BRIGHT);
-			System.out.print("Select Option [1-4]>");
-			System.out.println();
+
 		}
 	}
 }
