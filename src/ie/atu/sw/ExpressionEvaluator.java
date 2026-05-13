@@ -5,6 +5,8 @@ import java.util.*;
 public class ExpressionEvaluator {
 
 	// Builds a new vector based on the user input (words + operations)
+	// Time complexity: O(n)
+	// Performs vector operations based on user input
 	public double[] buildVector(Scanner scanner, Map<String, double[]> embeddings, List<String> usedWords) {
 
 		// Get the first word from the user

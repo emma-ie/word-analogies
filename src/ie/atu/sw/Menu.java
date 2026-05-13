@@ -6,27 +6,31 @@ public class Menu {
 
 	// Scanner for user input
 	private Scanner scanner = new Scanner(System.in);
-	
+
 	private SimilaritySearch search;
-	
+
 	// Stores word embeddings loaded from file
 	private Map<String, double[]> embeddings;
-	
+
 	// Builds the result vector from user input
 	private ExpressionEvaluator evaluator = new ExpressionEvaluator();
-	
+
 	// Writes results to a file
 	private OutputWriter outputWriter = new OutputWriter("out.txt");
 
 	// Constructor sets up embeddings and search class
+	// Time complexity: O(1)
+	// Explanation: Initialises the Menu object and sets the variables
 	public Menu(Map<String, double[]> embeddings) {
 		this.embeddings = embeddings;
 		this.search = new SimilaritySearch(embeddings);
 	}
 
 	// Displays and runs the main menu loop
+	// Time complexity: O(n)
+	// Explanation: The menu runs in a loop until the user chooses to exit
 	public void showMenu() {
-		
+
 		// Print program header once
 		System.out.println(ConsoleColour.WHITE);
 		System.out.println("************************************************************");

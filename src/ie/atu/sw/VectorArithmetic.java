@@ -1,6 +1,10 @@
 package ie.atu.sw;
 
 public class VectorArithmetic {
+
+	// Time complexity of add, subtract, multiply and divide: O(n)
+	// Explanation: Loops through each element in the vector once
+
 	public static double[] add(double[] a, double[] b) {
 		// Create a new array of doubles to store result of arithmetic in
 		double[] result = new double[a.length];
@@ -45,6 +49,8 @@ public class VectorArithmetic {
 
 	// Cosine similarity calculation method from:
 	// https://www.baeldung.com/java-cosine-similarity-two-vectors
+	// Time complexity: O(n)
+	// Explanation: Loops through both vectors once
 	public static double calculateCosineSimilarity(double[] a, double[] b) {
 		if (a == null || b == null || a.length != b.length || a.length == 0) {
 			throw new IllegalArgumentException("Vectors must be non-null, non-empty, and of the same length.");

@@ -9,16 +9,22 @@ public class OutputWriter {
 	private String outputFile;
 
 	// Constructor sets the default output file
+	// Time complexity: O(1)
+	// Explanation: Initialises a new OutputWriter object and sets the output file name - no loops
 	public OutputWriter(String outputFile) {
 		this.outputFile = outputFile;
 	}
 
 	// Allows user to change the output file name
+	// Time complexity: O(1)
+	// Explanation: Updates the output file name - no loops
 	public void setOutputFile(String outputFile) {
 		this.outputFile = outputFile;
 	}
 
 	// Writes the list of results to a text file
+	// Time complexity: O(n)
+	// Explanation: Loops through all search results and writes each one to the file
 	public void write(List<SearchResults> results) {
 		try (FileWriter fw = new FileWriter(new File(outputFile))) {
 			

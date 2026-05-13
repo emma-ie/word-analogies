@@ -5,6 +5,8 @@ import java.util.*;
 
 public class EmbeddingLoader {
 
+	// Time complexity: O(n)
+	// Explanation: Reads each line in the embeddings file
 	private void parse(String file, Map<String, double[]> embeddings) {
 
 		// Try to read in the file
@@ -23,6 +25,8 @@ public class EmbeddingLoader {
 	}
 
 	// Called by parse method
+	// Time complexity: O(n)
+	// Explanation: Loops through each value in the vector once
 	private void process(String line, Map<String, double[]> embeddings) {
 
 		// Splits the line into individual tokens from each comma
@@ -47,6 +51,8 @@ public class EmbeddingLoader {
 		embeddings.put(word, vector);
 	}
 
+	// Time complexity: O(n)
+	// Explanation: Loads all embeddings from the file into the HashMap 
 	public Map<String, double[]> load(String file) {
 
 		Map<String, double[]> embeddings = new HashMap<>();
