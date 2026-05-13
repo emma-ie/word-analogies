@@ -18,12 +18,23 @@ public class Menu {
 	// Writes results to a file
 	private OutputWriter outputWriter = new OutputWriter("out.txt");
 
-	// Constructor sets up embeddings and search class
-	// Time complexity: O(1)
-	// Explanation: Initialises the Menu object and sets the variables
-	public Menu(Map<String, double[]> embeddings) {
-		this.embeddings = embeddings;
+	private String embeddingsPath = "embeddings.txt";
+	private int topN = 10;
+	
+	// Loads embeddings from file and refreshes the search
+	// Time complexity: O(n)
+	// Explanation: Reads all embeddings from the file and stores them in a map
+	private void loadEmbeddings() {
+		EmbeddingLoader loader = new EmbeddingLoader();
+		this.embeddings = loader.load(embeddingsPath);
 		this.search = new SimilaritySearch(embeddings);
+	}
+
+	// Constructor 
+	// Time complexity: O(1)
+	// Explanation: Initialises the Menu object
+	public Menu() {
+		loadEmbeddings();
 	}
 
 	// Displays and runs the main menu loop
@@ -65,11 +76,17 @@ public class Menu {
 			switch (userChoice) {
 
 			case 1 -> {
-				// Set embeddings file path
-				System.out.print("Enter embeddings path: ");
+				// Set embeddings file path (or use default)
+				System.out.print("Enter embeddings path (or press Enter for default embeddings.txt): ");
 				String path = scanner.nextLine();
-				System.out.println("Path set to: " + path);
-				break;
+
+				if (!path.isBlank()) {
+					embeddingsPath = path;
+				}
+				
+				loadEmbeddings();
+				
+				System.out.println("Embeddings loaded from: " + embeddingsPath);
 			}
 
 			case 2 -> {
@@ -81,7 +98,7 @@ public class Menu {
 				if (resultVector == null)
 					break;
 
-				List<SearchResults> results = search.findSimilarWords(resultVector, 10, usedWords);
+				List<SearchResults> results = search.findSimilarWords(resultVector, topN, usedWords);
 
 				// Print results to console
 				for (SearchResults r : results) {
@@ -94,13 +111,25 @@ public class Menu {
 			}
 
 			case 3 -> {
-				System.out.println("3 Not implemented yet");
-				break;
+				System.out.println("Enter number of results to display: ");
+				
+				try {
+					int value = Integer.parseInt(scanner.nextLine());
+					
+					if (value > 0) {
+						topN = value;
+						System.out.println("Number of results to display set to: " + topN);
+					} else {
+						System.out.println("Value must be greater than 0.");
+					}
+				} catch (Exception e) {
+					System.out.println("Invalid number.");
+				}
 			}
 
 			case 4 -> {
 				// Change output file
-				System.out.println("Enter output file path: ");
+				System.out.print("Enter output file path: ");
 				String path = scanner.nextLine();
 				outputWriter.setOutputFile(path);
 				System.out.println("Output file set to: " + path);

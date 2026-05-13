@@ -33,7 +33,7 @@ public class OutputWriter {
 				fw.write(r.toString() + "\n");
 			}
 
-			System.out.println("Results written to: " + outputFile);
+			System.out.println("Results written to: " + outputFile + "\n");
 		} catch (IOException e) {
 			System.out.println("Error writing to file: " + e.getMessage());
 		}

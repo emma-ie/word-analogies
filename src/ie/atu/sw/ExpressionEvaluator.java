@@ -43,7 +43,7 @@ public class ExpressionEvaluator {
 
 			// If word is not in embeddings, skip and continue loop
 			if (nextVector == null) {
-				System.out.println("Word not found.");
+				System.out.print("Word not found.");
 				continue;
 			}
 
