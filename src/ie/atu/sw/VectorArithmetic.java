@@ -1,10 +1,22 @@
 package ie.atu.sw;
 
+/**
+ * Utility class that performs vector arithmetic operations and similarity
+ * calculations on word embedding vectors.
+ */
 public class VectorArithmetic {
 
-	// Time complexity: O(n)
-	// Explanation: Loops through each element in both vectors once
+	/**
+	 * Adds two vectors by element.
+	 * 
+	 * @param a first vector
+	 * @param b second vector
+	 * @return resulting vector after addition
+	 */
 	public static double[] add(double[] a, double[] b) {
+		// Time complexity: O(n)
+		// Explanation: Loops through each element in both vectors once
+
 		// Create a new array of doubles to store result of arithmetic in
 		double[] result = new double[a.length];
 
@@ -16,9 +28,16 @@ public class VectorArithmetic {
 		return result;
 	}
 
-	// Time complexity: O(n)
-	// Explanation: Loops through each element in both vectors once
+	/**
+	 * Subtracts two vectors by element.
+	 * 
+	 * @param a first vector
+	 * @param b second vector
+	 * @return resulting vector after subtraction
+	 */
 	public static double[] subtract(double[] a, double[] b) {
+		// Time complexity: O(n)
+		// Explanation: Loops through each element in both vectors once
 		double[] result = new double[a.length];
 
 		for (int i = 0; i < a.length; i++) {
@@ -28,9 +47,17 @@ public class VectorArithmetic {
 		return result;
 	}
 
-	// Time complexity: O(n)
-	// Explanation: Loops through each element in both vectors once
+	/**
+	 * Multiplies two vectors by element.
+	 * 
+	 * @param a first vector
+	 * @param b second vector
+	 * @return resulting vector after multiplication
+	 */
 	public static double[] multiply(double[] a, double[] b) {
+		// Time complexity: O(n)
+		// Explanation: Loops through each element in both vectors once
+
 		double[] result = new double[a.length];
 
 		for (int i = 0; i < a.length; i++) {
@@ -40,9 +67,17 @@ public class VectorArithmetic {
 		return result;
 	}
 
-	// Time complexity: O(n)
-	// Explanation: Loops through each element in both vectors once
+	/**
+	 * Divides two vectors by element.
+	 * 
+	 * @param a first vector
+	 * @param b second vector
+	 * @return resulting vector after multiplication
+	 */
 	public static double[] divide(double[] a, double[] b) {
+		// Time complexity: O(n)
+		// Explanation: Loops through each element in both vectors once
+
 		double[] result = new double[a.length];
 
 		for (int i = 0; i < a.length; i++) {
@@ -52,11 +87,21 @@ public class VectorArithmetic {
 		return result;
 	}
 
-	// Cosine similarity calculation method from:
-	// https://www.baeldung.com/java-cosine-similarity-two-vectors
-	// Time complexity: O(n)
-	// Explanation: Loops through each element in both vectors once
+	/**
+	 * Computes cosine similarity between two vectors.
+	 * 
+	 * @param a first vector
+	 * @param b second vector
+	 * @return similarity score between 0 and 1
+	 * @throws IllegalArgumentException if vectors are null, empty or different
+	 *                                  lengths
+	 */
 	public static double cosineSimilarity(double[] a, double[] b) {
+		// Cosine similarity calculation method from:
+		// https://www.baeldung.com/java-cosine-similarity-two-vectors
+		// Time complexity: O(n)
+		// Explanation: Loops through each element in both vectors once
+
 		if (a == null || b == null || a.length != b.length || a.length == 0) {
 			throw new IllegalArgumentException("Vectors must be non-null, non-empty, and of the same length.");
 		}
@@ -76,11 +121,18 @@ public class VectorArithmetic {
 		return dotProduct / (finalMagnitudeA * finalMagnitudeB);
 	}
 
-	// Calculate euclidean distance between two vectors
-	// sqrt(sum of squared differences between vector elements)
-	// Time complexity: O(n)
-	// Explanation: Method loops through each element of the input vectors once
+	/**
+	 * Computes euclidean distance between two vectors.
+	 * 
+	 * @param a first vector
+	 * @param b second vector
+	 * @return euclidean distance between vectors
+	 */
 	public static double euclideanDistance(double[] a, double[] b) {
+		// Calculate euclidean distance between two vectors
+		// sqrt(sum of squared differences between vector elements)
+		// Time complexity: O(n)
+		// Explanation: Method loops through each element of the input vectors once
 
 		double sum = 0.0;
 
