@@ -10,13 +10,15 @@ public class SimilaritySearch {
 	// Time complexity: O(1)
 	// Explanation: Initialises a new SimilaritySearch object and sets the variable
 	// - no loops
+	// - no loops
 	public SimilaritySearch(Map<String, double[]> embeddings) {
 		this.embeddings = embeddings;
 	}
 
+	// Finds the most similar words to a target vector
 	// Time complexity: O(n log n)
 	// Explanation: Final sorting step is O(n log n)
-	public List<SearchResults> findSimilarWords(double[] target, int topN, List<String> usedWords) {
+	public List<SearchResults> findSimilarWords(double[] target, int topN, List<String> usedWords, int method) {
 
 		// Thread safe list to store results
 		List<SearchResults> results = Collections.synchronizedList(new ArrayList<>());
@@ -38,8 +40,17 @@ public class SimilaritySearch {
 			// Create a virtual thread
 			Thread workerThread = Thread.startVirtualThread(() -> {
 
-				// Calculate the cosine similarity between target vector and current word vector
-				double similarityScore = VectorArithmetic.calculateCosineSimilarity(target, vector);
+				double similarityScore;
+
+				if (method == 1) {
+
+					// Calculate the cosine similarity between target vector and current word vector
+					similarityScore = VectorArithmetic.cosineSimilarity(target, vector);
+
+				} else {
+					// Calculate the euclidean distance between target vector and current word vector
+					similarityScore = VectorArithmetic.euclideanDistance(target, vector);
+				}
 
 				// Store the result
 				results.add(new SearchResults(word, similarityScore));
@@ -48,17 +59,17 @@ public class SimilaritySearch {
 			threads.add(workerThread);
 		}
 
-			// Wait for all threads to finish
-			for (Thread t : threads) {
-				try {
-					t.join();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		// Wait for all threads to finish
+		for (Thread t : threads) {
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+		}
 
-			// Sort the results based on similarity score
-			results.sort((a, b) -> Double.compare(b.getScore(), a.getScore()));
+		// Sort the results based on similarity score
+		results.sort((a, b) -> Double.compare(b.getScore(), a.getScore()));
 
 		// Return the top N most similar words
 		return results.subList(0, topN);

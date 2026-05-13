@@ -19,8 +19,14 @@ public class Menu {
 	private OutputWriter outputWriter = new OutputWriter("out.txt");
 
 	private String embeddingsPath = "embeddings.txt";
+
+	// Default value for how many results to print
 	private int topN = 10;
-	
+
+	// Value that determines which similarity method is used - default is cosine
+	// 1 = cosine, 2 = euclidean
+	private int similarityMethod = 1;
+
 	// Loads embeddings from file and refreshes the search
 	// Time complexity: O(n)
 	// Explanation: Reads all embeddings from the file and stores them in a map
@@ -30,7 +36,7 @@ public class Menu {
 		this.search = new SimilaritySearch(embeddings);
 	}
 
-	// Constructor 
+	// Constructor
 	// Time complexity: O(1)
 	// Explanation: Initialises the Menu object
 	public Menu() {
@@ -60,8 +66,7 @@ public class Menu {
 			System.out.println("(2) Enter Vector Operation>");
 			System.out.println("(3) Configure Options");
 			System.out.println("(4) Specify Output File (default: ./out.txt)");
-			System.out.println("(5) Optional Extras...");
-			System.out.println("(6) Quit");
+			System.out.println("(5) Quit");
 
 			int userChoice;
 
@@ -83,9 +88,9 @@ public class Menu {
 				if (!path.isBlank()) {
 					embeddingsPath = path;
 				}
-				
+
 				loadEmbeddings();
-				
+
 				System.out.println("Embeddings loaded from: " + embeddingsPath);
 			}
 
@@ -98,7 +103,7 @@ public class Menu {
 				if (resultVector == null)
 					break;
 
-				List<SearchResults> results = search.findSimilarWords(resultVector, topN, usedWords);
+				List<SearchResults> results = search.findSimilarWords(resultVector, topN, usedWords, similarityMethod);
 
 				// Print results to console
 				for (SearchResults r : results) {
@@ -111,20 +116,64 @@ public class Menu {
 			}
 
 			case 3 -> {
-				System.out.println("Enter number of results to display: ");
-				
+				System.out.println("Configuration Menu:");
+				System.out.println("1. Set number of results to display (currently " + topN + ")");
+				System.out.println("2. Set similarity method");
+				System.out.println("3. Back to main menu");
+
+				int choice;
+
 				try {
-					int value = Integer.parseInt(scanner.nextLine());
-					
-					if (value > 0) {
-						topN = value;
-						System.out.println("Number of results to display set to: " + topN);
-					} else {
-						System.out.println("Value must be greater than 0.");
-					}
+					choice = Integer.parseInt(scanner.nextLine());
 				} catch (Exception e) {
-					System.out.println("Invalid number.");
+					System.out.println("Invalid input.");
+					break;
 				}
+
+				switch (choice) {
+
+				case 1 -> {
+					System.out.println("Enter number of results to display: ");
+
+					try {
+						int value = Integer.parseInt(scanner.nextLine());
+
+						if (value > 0) {
+							topN = value;
+							System.out.println("Number of results to display set to: " + topN);
+						} else {
+							System.out.println("Value must be greater than 0.");
+						}
+					} catch (Exception e) {
+						System.out.println("Invalid number.");
+					}
+				}
+
+				case 2 -> {
+					System.out.println("Choose which similarity method to use:");
+					System.out.println("1. Cosine similarity");
+					System.out.println("2. Euclidean distance");
+
+					try {
+						int method = Integer.parseInt(scanner.nextLine());
+
+						if (method == 1 || method == 2) {
+							similarityMethod = method;
+							System.out.println("Similarity method updated to " + similarityMethod);
+						}
+					} catch (Exception e) {
+						System.out.println("Invalid input.");
+					}
+				}
+
+				case 3 -> {
+					System.out.println("Navigating to main menu...");
+					break;
+				}
+
+				default -> System.out.println("Invalid option.");
+				}
+
 			}
 
 			case 4 -> {
@@ -136,11 +185,6 @@ public class Menu {
 			}
 
 			case 5 -> {
-				System.out.println("5 Not implemented yet");
-				break;
-			}
-
-			case 6 -> {
 				System.out.println("Exiting...");
 				keepRunning = false;
 			}
