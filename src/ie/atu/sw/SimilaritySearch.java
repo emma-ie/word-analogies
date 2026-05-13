@@ -10,14 +10,14 @@ public class SimilaritySearch {
 	// Time complexity: O(1)
 	// Explanation: Initialises a new SimilaritySearch object and sets the variable
 	// - no loops
-	// - no loops
 	public SimilaritySearch(Map<String, double[]> embeddings) {
 		this.embeddings = embeddings;
 	}
 
 	// Finds the most similar words to a target vector
 	// Time complexity: O(n log n)
-	// Explanation: Final sorting step is O(n log n)
+	// Explanation: Final sorting step is O(n log n) which is worse than the big-O
+	// of the loop
 	public List<SearchResults> findSimilarWords(double[] target, int topN, List<String> usedWords, int method) {
 
 		// Thread safe list to store results
@@ -48,7 +48,8 @@ public class SimilaritySearch {
 					similarityScore = VectorArithmetic.cosineSimilarity(target, vector);
 
 				} else {
-					// Calculate the euclidean distance between target vector and current word vector
+					// Calculate the euclidean distance between target vector and current word
+					// vector
 					similarityScore = VectorArithmetic.euclideanDistance(target, vector);
 				}
 
@@ -69,7 +70,13 @@ public class SimilaritySearch {
 		}
 
 		// Sort the results based on similarity score
-		results.sort((a, b) -> Double.compare(b.getScore(), a.getScore()));
+		if (method == 1) {
+			// Cosine similarity - higher = better
+			results.sort((a, b) -> Double.compare(b.getScore(), a.getScore()));
+		} else {
+			// Euclidean distance - lower = better
+			results.sort((a, b) -> Double.compare(a.getScore(), b.getScore()));
+		}
 
 		// Return the top N most similar words
 		return results.subList(0, topN);

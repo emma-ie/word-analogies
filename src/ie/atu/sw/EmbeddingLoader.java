@@ -14,7 +14,7 @@ public class EmbeddingLoader {
 
 			String line;
 
-			// While the BufferedReaders next line is not null, send that line to the method
+			// While the BufferedReader's next line is not null, send that line to the method
 			// process
 			while ((line = br.readLine()) != null) {
 				process(line, embeddings);
@@ -39,7 +39,7 @@ public class EmbeddingLoader {
 		// for the word being in position 0
 		double[] vector = new double[tokens.length - 1];
 
-		// While i is less than the length of the tokens array
+		// Loop through each number in the tokens array
 		for (int i = 1; i < tokens.length; i++) {
 
 			// Parse the tokens array (not including the word at [0]) into doubles and place
@@ -52,7 +52,7 @@ public class EmbeddingLoader {
 	}
 
 	// Time complexity: O(n)
-	// Explanation: Loads all embeddings from the file into the HashMap 
+	// Explanation: Reads the embeddings file and stores all word vectors in a HashMap
 	public Map<String, double[]> load(String file) {
 
 		Map<String, double[]> embeddings = new HashMap<>();

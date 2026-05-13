@@ -37,15 +37,15 @@ public class Menu {
 	}
 
 	// Constructor
-	// Time complexity: O(1)
-	// Explanation: Initialises the Menu object
+	// Time complexity: O(n)
+	// Explanation: Loads embeddings from the file, so big-O depends on size of n
 	public Menu() {
 		loadEmbeddings();
 	}
 
 	// Displays and runs the main menu loop
 	// Time complexity: O(n)
-	// Explanation: The menu runs in a loop until the user chooses to exit
+	// Explanation: Menu runs in a loop and calls other methods (time complexity depends on these actions)
 	public void showMenu() {
 
 		// Print program header once
@@ -62,10 +62,10 @@ public class Menu {
 		boolean keepRunning = true;
 
 		while (keepRunning) {
-			System.out.println("(1) Enter Path to Embeddings File>");
-			System.out.println("(2) Enter Vector Operation>");
+			System.out.println("(1) Enter Path to Embeddings File (default: embeddings.txt)");
+			System.out.println("(2) Enter Vector Operation");
 			System.out.println("(3) Configure Options");
-			System.out.println("(4) Specify Output File (default: ./out.txt)");
+			System.out.println("(4) Specify Output File (default: out.txt)");
 			System.out.println("(5) Quit");
 
 			int userChoice;
@@ -78,6 +78,7 @@ public class Menu {
 				continue;
 			}
 
+			// Display the selected menu option
 			switch (userChoice) {
 
 			case 1 -> {
@@ -85,8 +86,11 @@ public class Menu {
 				System.out.print("Enter embeddings path (or press Enter for default embeddings.txt): ");
 				String path = scanner.nextLine();
 
+				// If user entered a path, replace the default file path
 				if (!path.isBlank()) {
 					embeddingsPath = path;
+				} else {
+					System.out.println("Using default embeddings file.");
 				}
 
 				loadEmbeddings();
@@ -100,6 +104,7 @@ public class Menu {
 
 				double[] resultVector = evaluator.buildVector(scanner, embeddings, usedWords);
 
+				// Skip search if vector couldn't be created
 				if (resultVector == null)
 					break;
 
@@ -116,6 +121,7 @@ public class Menu {
 			}
 
 			case 3 -> {
+				// Configuration settings menu
 				System.out.println("Configuration Menu:");
 				System.out.println("1. Set number of results to display (currently " + topN + ")");
 				System.out.println("2. Set similarity method");
@@ -133,6 +139,7 @@ public class Menu {
 				switch (choice) {
 
 				case 1 -> {
+					// Update how many results should be displayed
 					System.out.println("Enter number of results to display: ");
 
 					try {
@@ -150,6 +157,7 @@ public class Menu {
 				}
 
 				case 2 -> {
+					// Update which similarity method is used
 					System.out.println("Choose which similarity method to use:");
 					System.out.println("1. Cosine similarity");
 					System.out.println("2. Euclidean distance");
@@ -159,7 +167,6 @@ public class Menu {
 
 						if (method == 1 || method == 2) {
 							similarityMethod = method;
-							System.out.println("Similarity method updated to " + similarityMethod);
 						}
 					} catch (Exception e) {
 						System.out.println("Invalid input.");
@@ -185,6 +192,7 @@ public class Menu {
 			}
 
 			case 5 -> {
+				// Exit the application
 				System.out.println("Exiting...");
 				keepRunning = false;
 			}

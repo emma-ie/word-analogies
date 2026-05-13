@@ -43,7 +43,7 @@ public class ExpressionEvaluator {
 
 			// If word is not in embeddings, skip and continue loop
 			if (nextVector == null) {
-				System.out.print("Word not found.");
+				System.out.println("Word not found.");
 				continue;
 			}
 
@@ -53,7 +53,10 @@ public class ExpressionEvaluator {
 			case "-" -> resultVector = VectorArithmetic.subtract(resultVector, nextVector);
 			case "*" -> resultVector = VectorArithmetic.multiply(resultVector, nextVector);
 			case "/" -> resultVector = VectorArithmetic.divide(resultVector, nextVector);
-			default -> System.out.println("Invalid operator.");
+			default -> {
+				System.out.println("Invalid operator.");
+				continue;
+			}
 			}
 		}
 
