@@ -93,7 +93,7 @@ public class Menu {
 
 		while (keepRunning) {
 			System.out.println(ConsoleColour.WHITE);
-			System.out.println("(1) Enter Path to Embeddings File (default: ./embeddings.txt)");
+			System.out.println("(1) Enter Path to Embeddings File (default: ./embeddings.txt if available)");
 			System.out.println("(2) Enter Vector Operation");
 			System.out.println("(3) Configure Options");
 			System.out.println("(4) Specify Output File (default: ./out.txt)");
@@ -116,14 +116,12 @@ public class Menu {
 			case 1 -> {
 				// Set embeddings file path (or use default)
 				System.out.println(ConsoleColour.WHITE);
-				System.out.print("Enter embeddings path (or press Enter for default embeddings.txt): ");
+				System.out.print("Enter embeddings path (or press Enter for default embeddings.txt (if available): ");
 				String path = scanner.nextLine();
 
 				// If user entered a path, replace the default file path
 				if (!path.isBlank()) {
 					embeddingsPath = path;
-				} else {
-					System.out.println("Using default embeddings file.");
 				}
 
 				loadEmbeddings();
