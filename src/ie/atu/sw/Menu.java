@@ -40,7 +40,7 @@ public class Menu {
 
 	/**
 	 * Loads embeddings from the selected file and creates a new similarity search
-	 * object.
+	 * object. If loading fails, the default embeddings file is used.
 	 */
 	// Time complexity: O(n)
 	// Explanation: Reads all embeddings from the file and stores them in a map
