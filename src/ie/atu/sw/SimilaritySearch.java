@@ -2,11 +2,19 @@ package ie.atu.sw;
 
 import java.util.*;
 
+/**
+ * Performs similarity searches on word embeddings using cosine similarity or
+ * Euclidean distance.
+ */
 public class SimilaritySearch {
 
 	private Map<String, double[]> embeddings;
 
-	// Constructor to set the embeddings Map
+	/**
+	 * Creates a new SimilaritySearch object.
+	 * 
+	 * @param embeddings map containing word embeddings.
+	 */
 	// Time complexity: O(1)
 	// Explanation: Initialises a new SimilaritySearch object and sets the variable
 	// - no loops
@@ -14,7 +22,15 @@ public class SimilaritySearch {
 		this.embeddings = embeddings;
 	}
 
-	// Finds the most similar words to a target vector
+	/**
+	 * Finds the most similar words to a target vector.
+	 * 
+	 * @param target    the target vector to compare against
+	 * @param topN      the number of results to return
+	 * @param usedWords list of words already used in the vector operation
+	 * @param method    similarity method to use
+	 * @return list of the most similar words and their scores
+	 */
 	// Time complexity: O(n log n)
 	// Explanation: Final sorting step is O(n log n) which is worse than the big-O
 	// of the loop

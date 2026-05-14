@@ -39,7 +39,7 @@ public class Menu {
 	private int similarityMethod = 1;
 
 	/**
-	 * Loads embeddings from the selected file and refreshes the similarity search
+	 * Loads embeddings from the selected file and creates a new similarity search
 	 * object.
 	 */
 	// Time complexity: O(n)

@@ -2,9 +2,21 @@ package ie.atu.sw;
 
 import java.util.*;
 
+/**
+ * Builds a result vector from a user-exntered expression using word embeddings
+ * and vector arithmetic operations.
+ */
 public class ExpressionEvaluator {
 
-	// Builds a new vector based on the user input (words + operations)
+	/**
+	 * Builds a new vector based on a sequence of user-entered words and operators.
+	 * 
+	 * @param scanner    used to read user input
+	 * @param embeddings map of words and their vector representations
+	 * @param usedWords  list of words used in the expression (excluded from
+	 *                   results)
+	 * @return the final computed vector, or null if the first word is not found
+	 */
 	// Time complexity: O(n)
 	// Performs vector operations based on user input
 	public double[] buildVector(Scanner scanner, Map<String, double[]> embeddings, List<String> usedWords) {
