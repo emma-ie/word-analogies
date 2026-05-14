@@ -3,8 +3,19 @@ package ie.atu.sw;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Loads word embeddings from a text file and stores them in a HashMap.
+ * 
+ * Each word is mapped to a vector of doubles representing its embedding.
+ */
 public class EmbeddingLoader {
 
+	/**
+	 * Reads the embeddings file line by line and processes each line.
+	 * 
+	 * @param file       path to the embeddings file
+	 * @param embeddings map used to store loaded word embeddings
+	 */
 	// Time complexity: O(n)
 	// Explanation: Reads each line in the embeddings file
 	private void parse(String file, Map<String, double[]> embeddings) {
@@ -14,8 +25,8 @@ public class EmbeddingLoader {
 
 			String line;
 
-			// While the BufferedReader's next line is not null, send that line to the method
-			// process
+			// While the BufferedReader's next line is not null, send that line to the
+			// method process
 			while ((line = br.readLine()) != null) {
 				process(line, embeddings);
 			}
@@ -24,6 +35,13 @@ public class EmbeddingLoader {
 		}
 	}
 
+	/**
+	 * Converts a single line from the embeddings file into a word and its vector
+	 * representation.
+	 * 
+	 * @param line       line read from the embeddings file
+	 * @param embeddings map used to store loaded word embeddings
+	 */
 	// Called by parse method
 	// Time complexity: O(n)
 	// Explanation: Loops through each value in the vector once
@@ -51,8 +69,15 @@ public class EmbeddingLoader {
 		embeddings.put(word, vector);
 	}
 
+	/**
+	 * Loads all embeddings from the specified file into a HashMap.
+	 * 
+	 * @param file path to the embeddings file
+	 * @return map containing all loaded word embeddings
+	 */
 	// Time complexity: O(n)
-	// Explanation: Reads the embeddings file and stores all word vectors in a HashMap
+	// Explanation: Reads the embeddings file and stores all word vectors in a
+	// HashMap
 	public Map<String, double[]> load(String file) {
 
 		Map<String, double[]> embeddings = new HashMap<>();

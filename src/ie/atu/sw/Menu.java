@@ -2,6 +2,17 @@ package ie.atu.sw;
 
 import java.util.*;
 
+/**
+ * Command-line menu interface.
+ * 
+ * This allows the user to:
+ * <ul>
+ * <li>Load embeddings file</li>
+ * <li>Perform vector arithmetic operations</li>
+ * <li>Configure similarity search options</li>
+ * <li>Write search results to an output file</li>
+ * </ul>
+ */
 public class Menu {
 
 	// Scanner for user input
@@ -27,7 +38,10 @@ public class Menu {
 	// 1 = cosine, 2 = euclidean
 	private int similarityMethod = 1;
 
-	// Loads embeddings from file and refreshes the search
+	/**
+	 * Loads embeddings from the selected file and refreshes the similarity search
+	 * object.
+	 */
 	// Time complexity: O(n)
 	// Explanation: Reads all embeddings from the file and stores them in a map
 	private void loadEmbeddings() {
@@ -36,16 +50,23 @@ public class Menu {
 		this.search = new SimilaritySearch(embeddings);
 	}
 
-	// Constructor
+	/**
+	 * Constructs a new Menu object and loads the default embeddings file.
+	 */
 	// Time complexity: O(n)
 	// Explanation: Loads embeddings from the file, so big-O depends on size of n
 	public Menu() {
 		loadEmbeddings();
 	}
 
-	// Displays and runs the main menu loop
+	/**
+	 * Displays and runs the main menu loop for the application.
+	 * 
+	 * The menu continues running until the user selects the quit option.
+	 */
 	// Time complexity: O(n)
-	// Explanation: Menu runs in a loop and calls other methods (time complexity depends on these actions)
+	// Explanation: Menu runs in a loop and calls other methods (time complexity
+	// depends on these actions)
 	public void showMenu() {
 
 		// Print program header once
