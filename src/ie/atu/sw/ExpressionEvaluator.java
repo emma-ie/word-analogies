@@ -24,7 +24,7 @@ public class ExpressionEvaluator {
 		// Get the first word from the user
 		System.out.println(ConsoleColour.WHITE);
 		System.out.println("Enter first word: ");
-		String wordFirst = scanner.nextLine();
+		String wordFirst = scanner.nextLine().trim().toLowerCase();
 		usedWords.add(wordFirst);
 
 		// Get the vector for the first word
@@ -47,13 +47,22 @@ public class ExpressionEvaluator {
 			// Empty input ends the loop
 			if (operator.isEmpty())
 				break;
-
+			
+			// Ensures only valid operators are accepted
+			if (!operator.equals("+") &&
+				!operator.equals("-") &&
+				!operator.equals("*") &&
+				!operator.equals("/")) {
+				System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
+				System.out.println("Invalid operator.");
+				continue;
+			}
+				
 			// Get the next word from the user
 			System.out.println(ConsoleColour.WHITE);
 			System.out.println("Enter next word: ");
-			String nextWord = scanner.nextLine();
-			usedWords.add(nextWord);
-
+			String nextWord = scanner.nextLine().trim().toLowerCase();
+			
 			// Get vector for the next word
 			double[] nextVector = embeddings.get(nextWord);
 
@@ -63,6 +72,8 @@ public class ExpressionEvaluator {
 				System.out.println("Word not found.");
 				continue;
 			}
+			
+			usedWords.add(nextWord);
 
 			// Apply the selected operation to update the result vector
 			switch (operator) {
@@ -70,11 +81,6 @@ public class ExpressionEvaluator {
 			case "-" -> resultVector = VectorArithmetic.subtract(resultVector, nextVector);
 			case "*" -> resultVector = VectorArithmetic.multiply(resultVector, nextVector);
 			case "/" -> resultVector = VectorArithmetic.divide(resultVector, nextVector);
-			default -> {
-				System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
-				System.out.println("Invalid operator.");
-				continue;
-			}
 			}
 		}
 

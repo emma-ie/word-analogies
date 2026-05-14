@@ -56,7 +56,7 @@ public class Menu {
 			embeddingsPath = "embeddings.txt";
 			loaded = loader.load(embeddingsPath);
 		}
-		
+
 		this.embeddings = loaded;
 		this.search = new SimilaritySearch(embeddings);
 	}
