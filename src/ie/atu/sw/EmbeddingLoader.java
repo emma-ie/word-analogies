@@ -31,7 +31,7 @@ public class EmbeddingLoader {
 				process(line, embeddings);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			return;
 		}
 	}
 

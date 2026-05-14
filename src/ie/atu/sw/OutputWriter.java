@@ -48,9 +48,10 @@ public class OutputWriter {
 			for (SearchResults r : results) {
 				fw.write(r.toString() + "\n");
 			}
-
+			System.out.println(ConsoleColour.WHITE);
 			System.out.println("Results written to: " + outputFile);
 		} catch (IOException e) {
+			System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
 			System.out.println("Error writing to file: " + e.getMessage());
 		}
 	}

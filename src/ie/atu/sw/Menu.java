@@ -27,9 +27,9 @@ public class Menu {
 	private ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
 	// Writes results to a file
-	private OutputWriter outputWriter = new OutputWriter("out.txt");
+	private OutputWriter outputWriter = new OutputWriter("./out.txt");
 
-	private String embeddingsPath = "embeddings.txt";
+	private String embeddingsPath = "./embeddings.txt";
 
 	// Default value for how many results to print
 	private int topN = 10;
@@ -46,7 +46,18 @@ public class Menu {
 	// Explanation: Reads all embeddings from the file and stores them in a map
 	private void loadEmbeddings() {
 		EmbeddingLoader loader = new EmbeddingLoader();
-		this.embeddings = loader.load(embeddingsPath);
+		Map<String, double[]> loaded = loader.load(embeddingsPath);
+		
+		// If loading fails, use default file instead
+		if (loaded == null || loaded.isEmpty()) {
+			System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
+			System.out.println("Error loading embeddings file: " + embeddingsPath + ". Using default embeddings.txt");
+			
+			embeddingsPath = "embeddings.txt";
+			loaded = loader.load(embeddingsPath);
+		}
+		
+		this.embeddings = loaded;
 		this.search = new SimilaritySearch(embeddings);
 	}
 
@@ -83,10 +94,11 @@ public class Menu {
 		boolean keepRunning = true;
 
 		while (keepRunning) {
-			System.out.println("(1) Enter Path to Embeddings File (default: embeddings.txt)");
+			System.out.println(ConsoleColour.WHITE);
+			System.out.println("(1) Enter Path to Embeddings File (default: ./embeddings.txt)");
 			System.out.println("(2) Enter Vector Operation");
 			System.out.println("(3) Configure Options");
-			System.out.println("(4) Specify Output File (default: out.txt)");
+			System.out.println("(4) Specify Output File (default: ./out.txt)");
 			System.out.println("(5) Quit");
 
 			int userChoice;
@@ -95,6 +107,7 @@ public class Menu {
 			try {
 				userChoice = Integer.parseInt(scanner.nextLine());
 			} catch (Exception e) {
+				System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
 				System.out.println("Invalid input - must be a number.");
 				continue;
 			}
@@ -104,6 +117,7 @@ public class Menu {
 
 			case 1 -> {
 				// Set embeddings file path (or use default)
+				System.out.println(ConsoleColour.WHITE);
 				System.out.print("Enter embeddings path (or press Enter for default embeddings.txt): ");
 				String path = scanner.nextLine();
 
@@ -115,7 +129,6 @@ public class Menu {
 				}
 
 				loadEmbeddings();
-
 				System.out.println("Embeddings loaded from: " + embeddingsPath);
 			}
 
@@ -143,6 +156,7 @@ public class Menu {
 
 			case 3 -> {
 				// Configuration settings menu
+				System.out.println(ConsoleColour.WHITE);
 				System.out.println("Configuration Menu:");
 				System.out.println("1. Set number of results to display (currently " + topN + ")");
 				System.out.println("2. Set similarity method");
@@ -153,6 +167,7 @@ public class Menu {
 				try {
 					choice = Integer.parseInt(scanner.nextLine());
 				} catch (Exception e) {
+					System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
 					System.out.println("Invalid input.");
 					break;
 				}
@@ -161,6 +176,7 @@ public class Menu {
 
 				case 1 -> {
 					// Update how many results should be displayed
+					System.out.println(ConsoleColour.WHITE);
 					System.out.println("Enter number of results to display: ");
 
 					try {
@@ -170,15 +186,18 @@ public class Menu {
 							topN = value;
 							System.out.println("Number of results to display set to: " + topN);
 						} else {
+							System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
 							System.out.println("Value must be greater than 0.");
 						}
 					} catch (Exception e) {
+						System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
 						System.out.println("Invalid number.");
 					}
 				}
 
 				case 2 -> {
 					// Update which similarity method is used
+					System.out.println(ConsoleColour.WHITE);
 					System.out.println("Choose which similarity method to use:");
 					System.out.println("1. Cosine similarity");
 					System.out.println("2. Euclidean distance");
@@ -190,6 +209,7 @@ public class Menu {
 							similarityMethod = method;
 						}
 					} catch (Exception e) {
+						System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
 						System.out.println("Invalid input.");
 					}
 				}
@@ -199,7 +219,10 @@ public class Menu {
 					break;
 				}
 
-				default -> System.out.println("Invalid option.");
+				default -> {
+					System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
+					System.out.println("Invalid option.");
+				}
 				}
 
 			}
@@ -218,6 +241,7 @@ public class Menu {
 				keepRunning = false;
 			}
 			default -> {
+				System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
 				System.out.println("Invalid option.");
 			}
 			}

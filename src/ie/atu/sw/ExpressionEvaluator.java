@@ -22,6 +22,7 @@ public class ExpressionEvaluator {
 	public double[] buildVector(Scanner scanner, Map<String, double[]> embeddings, List<String> usedWords) {
 
 		// Get the first word from the user
+		System.out.println(ConsoleColour.WHITE);
 		System.out.println("Enter first word: ");
 		String wordFirst = scanner.nextLine();
 		usedWords.add(wordFirst);
@@ -31,6 +32,7 @@ public class ExpressionEvaluator {
 
 		// If word is not in embeddings, stop
 		if (resultVector == null) {
+			System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
 			System.out.println("Word not found.");
 			return null;
 		}
@@ -38,6 +40,7 @@ public class ExpressionEvaluator {
 		// Keep asking for user input until user finishes
 		while (true) {
 
+			System.out.println(ConsoleColour.WHITE);
 			System.out.println("Enter operator (+ - * /) or press Enter to finish: ");
 			String operator = scanner.nextLine();
 
@@ -46,6 +49,7 @@ public class ExpressionEvaluator {
 				break;
 
 			// Get the next word from the user
+			System.out.println(ConsoleColour.WHITE);
 			System.out.println("Enter next word: ");
 			String nextWord = scanner.nextLine();
 			usedWords.add(nextWord);
@@ -55,6 +59,7 @@ public class ExpressionEvaluator {
 
 			// If word is not in embeddings, skip and continue loop
 			if (nextVector == null) {
+				System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
 				System.out.println("Word not found.");
 				continue;
 			}
@@ -66,6 +71,7 @@ public class ExpressionEvaluator {
 			case "*" -> resultVector = VectorArithmetic.multiply(resultVector, nextVector);
 			case "/" -> resultVector = VectorArithmetic.divide(resultVector, nextVector);
 			default -> {
+				System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
 				System.out.println("Invalid operator.");
 				continue;
 			}
