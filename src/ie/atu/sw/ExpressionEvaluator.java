@@ -9,7 +9,7 @@ import java.util.*;
 public class ExpressionEvaluator {
 
 	/**
-	 * Builds a new vector based on a sequence of user-entered words and operators.
+	 * Builds a new vector based on a sequence of user-entered words and operators. Input words are normalised and validated before being processed.
 	 * 
 	 * @param scanner    used to read user input
 	 * @param embeddings map of words and their vector representations

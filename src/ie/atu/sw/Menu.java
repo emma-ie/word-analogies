@@ -133,6 +133,15 @@ public class Menu {
 			}
 
 			case 2 -> {
+				
+				// Do not allow input if there is an invalid embeddings file
+				if (embeddings == null || embeddings.isEmpty()) {
+					System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
+					System.out.println("No embeddings file loaded.");
+					System.out.println("Please load a valid embeddings file first.");
+					continue;
+				}
+				
 				// Run vector operation and similarity search
 				List<String> usedWords = new ArrayList<>();
 
