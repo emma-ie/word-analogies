@@ -40,21 +40,19 @@ public class Menu {
 
 	/**
 	 * Loads embeddings from the selected file and creates a new similarity search
-	 * object. If loading fails, the default embeddings file is used.
+	 * object.
 	 */
 	// Time complexity: O(n)
 	// Explanation: Reads all embeddings from the file and stores them in a map
 	private void loadEmbeddings() {
 		EmbeddingLoader loader = new EmbeddingLoader();
 		Map<String, double[]> loaded = loader.load(embeddingsPath);
-		
+
 		// If loading fails, use default file instead
 		if (loaded == null || loaded.isEmpty()) {
-			System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
-			System.out.println("Error loading embeddings file: " + embeddingsPath + ". Using default embeddings.txt");
-			
-			embeddingsPath = "embeddings.txt";
-			loaded = loader.load(embeddingsPath);
+			this.embeddings = null;
+			this.search = null;
+			return;
 		}
 
 		this.embeddings = loaded;
@@ -129,11 +127,19 @@ public class Menu {
 				}
 
 				loadEmbeddings();
-				System.out.println("Embeddings loaded from: " + embeddingsPath);
+
+				if (embeddings != null && !embeddings.isEmpty()) {
+					System.out.println("Embeddings loaded from: " + embeddingsPath);
+
+				} else {
+					System.out.print(ConsoleColour.RED_BOLD_BRIGHT);
+					System.out.println("Could not load embeddings file: " + embeddingsPath);
+				}
+
 			}
 
 			case 2 -> {
-				
+
 				// Do not allow input if there is an invalid embeddings file
 				if (embeddings == null || embeddings.isEmpty()) {
 					System.out.println(ConsoleColour.RED_BOLD_BRIGHT);
@@ -141,7 +147,7 @@ public class Menu {
 					System.out.println("Please load a valid embeddings file first.");
 					continue;
 				}
-				
+
 				// Run vector operation and similarity search
 				List<String> usedWords = new ArrayList<>();
 
